@@ -1,0 +1,48 @@
+﻿@page "/addcontact"
+@using p6_c00445623_c00441253.Shared
+@inject HttpClient Http
+<PageTitle>Add Contact</PageTitle>
+<h1>New Contact</h1>
+<p>This component demonstrates adding data to the server.</p>
+
+@code{
+    Contact contact = new Contact();
+}
+
+<div class="row">
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="name">Name</label>
+ <input form="name" class="form-control"
+@bind="@contact.Name">
+ </div>
+ </div>
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="phone">Phone</label>
+ <input form="phone" class="form-control"
+@bind="@contact.Phone">
+ </div>
+ </div>
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="birthday">Birthday</label>
+ <input form="birthday" class="form-control"
+@bind="@contact.Birthday">
+ </div>
+ </div>
+</div>
+<div class="row">
+ <div class="col-md-4">
+ <div class="form-group">
+ <input type="button" class="btn btn-primary"
+@onclick="@Put" value="Save" />
+ </div>
+ </div>
+</div>
+
+@code {
+    protected async Task Put() {
+        await Http.PutAsJsonAsync<Contact>("Contact", @contact);
+    }
+}

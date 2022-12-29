@@ -1,0 +1,50 @@
+﻿@page "/listcontacts"
+@using p6_c00445623_c00441253.Shared
+@inject HttpClient Http
+
+<PageTitle>Contacts List</PageTitle>
+<h1>Contacts</h1>
+<p>This component demonstrates fetching data from the
+    server.</p>
+
+@if (contacts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        @foreach(var c in contacts) {
+            <span>@c.Id, @c.Name, @c.Phone, @c.Birthday.Date</span>
+            <br>
+        }
+        <br/>
+    </div>
+}
+
+<br/>
+<div class="row">
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="id">Enter ID to Delete</label>
+ <input form="id" class="form-control" @bind="@id">
+ <input type="button" class="btn btn-danger"
+@onclick="@Delete" value="Delete" />
+ </div>
+ </div>
+</div>
+
+@code {
+    private Contact[]? contacts;
+    private int id;
+
+    protected override async Task OnInitializedAsync()
+    {
+        contacts = await Http.GetFromJsonAsync<Contact[]>("Contact");
+    }
+    
+    protected async Task Delete() {
+        await Http.DeleteAsync($"Contact/{id}");
+    }
+
+}

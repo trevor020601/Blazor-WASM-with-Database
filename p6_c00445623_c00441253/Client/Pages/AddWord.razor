@@ -1,0 +1,48 @@
+﻿@page "/addword"
+@using p6_c00445623_c00441253.Shared
+@inject HttpClient Http
+<PageTitle>Add Word</PageTitle>
+<h1>New Word</h1>
+<p>This component demonstrates adding data to the server.</p>
+
+@code{
+    Dictionary word = new Dictionary();
+}
+
+<div class="row">
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="wordId">WordId (can be left as 0)</label>
+ <input form="wordId" class="form-control"
+@bind="@word.WordId">
+ </div>
+ </div>
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="word">Word</label>
+ <input form="word" class="form-control"
+@bind="@word.Word">
+ </div>
+ </div>
+ <div class="col-md-6">
+ <div class="form-group">
+ <label for="definition">Definition</label>
+ <input form="definition" class="form-control"
+@bind="@word.Definition">
+ </div>
+ </div>
+</div>
+<div class="row">
+ <div class="col-md-4">
+ <div class="form-group">
+ <input type="button" class="btn btn-primary"
+@onclick="@Put" value="Save" />
+ </div>
+ </div>
+</div>
+
+@code {
+    protected async Task Put() {
+        await Http.PutAsJsonAsync<Dictionary>("Dictionary", @word);
+    }
+}
